@@ -1,0 +1,65 @@
+{
+  "model_name": "ShopFast-GBDT-Recommender",
+  "model_type": "GradientBoostingClassifier (Ranking y Probabilidad de Conversión)",
+  "framework": "scikit-learn",
+  "version": "1.0.0",
+  "trained_at_utc": "2026-11-25T20:17:29.007744+00:00",
+  "dataset": {
+    "path": "data/shopfast_interactions.csv",
+    "total_rows": 20000,
+    "train_rows": 16000,
+    "test_rows": 4000,
+    "positive_rate": 0.7289,
+    "features": [
+      "affinity_categoria",
+      "ratio_precio_presupuesto",
+      "rating_producto",
+      "descuento_pct",
+      "vistas_previas_categoria",
+      "dias_desde_ultima_compra",
+      "items_en_carrito",
+      "es_cyberday",
+      "popularidad_normalizada",
+      "compatibilidad_historial"
+    ]
+  },
+  "hyperparameters": {
+    "n_estimators": 150,
+    "learning_rate": 0.08,
+    "max_depth": 4,
+    "subsample": 0.85,
+    "min_samples_leaf": 20,
+    "random_state": 42
+  },
+  "metrics": {
+    "accuracy": 0.8423,
+    "precision": 0.8642,
+    "recall": 0.9297,
+    "f1_score": 0.8958,
+    "roc_auc": 0.8958
+  },
+  "confusion_matrix": {
+    "tn": 658,
+    "fp": 426,
+    "fn": 205,
+    "tp": 2711
+  },
+  "training_time_seconds": 4.195,
+  "inference_latency_30_candidates_ms": {
+    "p50": 0.364,
+    "p95": 0.546,
+    "mean": 0.383
+  },
+  "feature_importances": {
+    "ratio_precio_presupuesto": 0.47289,
+    "affinity_categoria": 0.17021,
+    "dias_desde_ultima_compra": 0.11595,
+    "items_en_carrito": 0.06121,
+    "compatibilidad_historial": 0.04299,
+    "descuento_pct": 0.04209,
+    "popularidad_normalizada": 0.03142,
+    "rating_producto": 0.02522,
+    "vistas_previas_categoria": 0.01975,
+    "es_cyberday": 0.01827
+  }
+}

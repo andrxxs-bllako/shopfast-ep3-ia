@@ -1,0 +1,107 @@
+{
+  "info": {
+    "_postman_id": "a5f19e84-3b91-4f4c-9f2a-shopfast-ep3",
+    "name": "ShopFast AI — EP3 Defensa en Vivo",
+    "description": "Colección de pruebas para la defensa EP3 (ITY1102 - Equipo 5). Incluye endpoints de salud, predicción ML interpretable, Circuit Breaker, ingesta asíncrona y observabilidad.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "api_key", "value": "shopfast-ep3-key-2026" }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check (ALB Target Group)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/health"
+      }
+    },
+    {
+      "name": "2. Métricas e Hiperparámetros del Modelo ML",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/model/info"
+      }
+    },
+    {
+      "name": "3. Predicción Personalizada + Interpretabilidad (POST /predecir)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"cliente_1045\",\n  \"categoria_preferida\": \"Laptops\",\n  \"presupuesto_usd\": 950.0,\n  \"vistas_previas_categoria\": 6,\n  \"dias_desde_ultima_compra\": 12,\n  \"items_en_carrito\": 1,\n  \"es_cyberday\": true,\n  \"top_k\": 5,\n  \"simular_fallo\": false\n}"
+        },
+        "url": "{{base_url}}/predecir"
+      }
+    },
+    {
+      "name": "4. Prueba Resiliencia — Circuit Breaker / Fallback",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"cliente_1045\",\n  \"categoria_preferida\": \"Gaming\",\n  \"presupuesto_usd\": 450.0,\n  \"top_k\": 3,\n  \"simular_fallo\": true\n}"
+        },
+        "url": "{{base_url}}/predecir"
+      }
+    },
+    {
+      "name": "5. Consulta RESTful por Usuario (GET /recommendations/{user_id})",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "X-API-Key", "value": "{{api_key}}" }
+        ],
+        "url": "{{base_url}}/recommendations/cliente_2088?categoria=Audio&presupuesto_usd=300&top_k=3"
+      }
+    },
+    {
+      "name": "6. Ingesta Asíncrona Clickstream (SQS / RabbitMQ)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "X-API-Key", "value": "{{api_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"cliente_1045\",\n  \"producto_id\": \"SF-LAP-0001\",\n  \"accion\": \"add_to_cart\",\n  \"precio_usd\": 899.99\n}"
+        },
+        "url": "{{base_url}}/events/clickstream"
+      }
+    },
+    {
+      "name": "7. Seguridad — Prueba Sin API Key (Debe retornar 401)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"intruso\",\n  \"categoria_preferida\": \"Laptops\",\n  \"presupuesto_usd\": 500.0\n}"
+        },
+        "url": "{{base_url}}/predecir"
+      }
+    },
+    {
+      "name": "8. Observabilidad RED y Estado de Caché/Cola",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/metrics"
+      }
+    }
+  ]
+}

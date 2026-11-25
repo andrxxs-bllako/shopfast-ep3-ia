@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /app
+
+RUN groupadd -g 10001 dashgroup && useradd -u 10001 -g dashgroup -m dashuser
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY --chown=dashuser:dashgroup ./dashboard /app/dashboard
+
+USER dashuser
+EXPOSE 8501
+
+CMD ["streamlit", "run", "dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.headless=true"]

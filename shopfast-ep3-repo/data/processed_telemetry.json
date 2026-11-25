@@ -1,0 +1,19 @@
+{
+  "last_processed_utc": "2026-11-25T21:41:04.987565+00:00",
+  "source_backend": "local",
+  "total_events_processed": 1941,
+  "events_by_type": {
+    "recommendation_served": 1933,
+    "clickstream_interaction": 8
+  },
+  "top_categories": {
+    "Audio": 253,
+    "Smartphones": 215,
+    "Monitores": 259,
+    "Gaming": 248,
+    "Laptops": 251,
+    "Accesorios": 238,
+    "Redes": 233,
+    "Almacenamiento": 236
+  }
+}
